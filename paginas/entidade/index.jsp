@@ -329,32 +329,84 @@
 <body>
 
     <!-- Componente necessario para a preparacao fundamental inicial das telas em AngularJS -->
-        <sk-application
-            layout          = "column"
-            class           = "dynaform-launcher"
-            ng-controller   = "ControladoraCentral as central"
-        >
+
 
         <!-- Componente responsavel pela montagem automatica da grade e formulario vinculado a entidade -->
-            <sk-dynaform flex
-                layout                          = "column"
-                sk-entity-name                  = "{{ central.nomeEntidade }}"
-                sk-on-dynaform-loaded           = "central.aoCarregarDynaform (dynaform, dataset)"
+        <sk-application
+               layout="column"
+                    class="dynaform-launcher"
+                    ng-controller="ControladoraCentral as ctrl"
+        >
+                <div ng-include="'html5/AdministracaoServidor/abas/abaNotificacoes.html'" class="ng-scope" style="padding: 50px"><sk-hbox flex="" layout="row" class="ng-scope" >
 
-                sk-skip-start-page              = "true"
-                sk-disable-tour                 = "true"
-                sk-enable-toolpanel             = "true"
+                            <sk-vbox class="painel-left" id="pnLeft" layout="column">
+                                <sk-vbox layout="column">
+                                    <span sk-i18n="">Tipo de notificação:</span>
+                                    <br>
+                                    <sk-radio-input sk-value="ctrl.opcSelEnvio" sk-option="INFO" sk-change="onChange()" sk-enabled="enabled" class="ng-isolate-scope"><label class="radio"><input type="radio" ng-model="value" value="INFO" ng-disabled="!enabled" ng-change="changeHandler()" name="" class="ng-pristine ng-untouched ng-valid checked ng-not-empty"> <span class="outer"><span class="inner"></span> </span><span class="radio-label" >
+                                        <b class="ng-scope"><span sk-i18n="">Informação</span></b>
+                                    </span></label></sk-radio-input>
+                                    <span class="font-italic" sk-i18n="">Notifica o usuário com uma mensagem informativa no botão de notificações do sistema.</span>
+                                    <br>
 
-                sk-show-edit-button             = "true"
-                sk-hide-buttons-config          = "false"
-                sk-hide-button-favorite         = "false"
-                sk-hide-button-recents          = "false"
-                sk-hide-entity-card             = "false"
-                sk-hide-button-entity-attach    = "false" 
-                sk-hide-entity-search-field     = "false"
-            ></sk-dynaform>
+                                    <sk-radio-input sk-value="ctrl.opcSelEnvio" sk-option="ATENCAO" sk-change="onChange()" sk-enabled="enabled" class="ng-isolate-scope"><label class="radio"><input type="radio" ng-model="value" value="ATENCAO" ng-disabled="!enabled" ng-change="changeHandler()" name="" class="ng-pristine ng-untouched ng-valid ng-not-empty"> <span class="outer"><span class="inner"></span> </span><span class="radio-label">
+                                        <b class="ng-scope"><span sk-i18n="">Atenção</span></b>
+                                    </span></label></sk-radio-input>
+                                    <span class="font-italic" sk-i18n="">Notifica o usuário com uma mensagem de alerta no botão de notificações do sistema.</span>
+                                    <br>
 
+                                    <sk-radio-input sk-value="ctrl.opcSelEnvio" sk-option="ERRO" sk-change="onChange()" sk-enabled="enabled" class="ng-isolate-scope"><label class="radio"><input type="radio" ng-model="value" value="ERRO" ng-disabled="!enabled" ng-change="changeHandler()" name="" class="ng-pristine ng-untouched ng-valid ng-not-empty"> <span class="outer"><span class="inner"></span> </span><span class="radio-label">
+                                        <b class="ng-scope"><span sk-i18n="">Erro</span></b>
+                                    </span></label></sk-radio-input>
+                                    <span class="font-italic" sk-i18n="">Notifica o usuário com uma mensagem de erro no botão de notificações do sistema.</span>
+                                    <br>
+
+                                    <sk-radio-input sk-value="ctrl.opcSelEnvio" sk-option="URGENTE" sk-change="onChange()" sk-enabled="enabled" class="ng-isolate-scope"><label class="radio"><input type="radio" ng-model="value" value="URGENTE" ng-disabled="!enabled" ng-change="changeHandler()" name="" class="ng-pristine ng-untouched ng-valid ng-not-empty"> <span class="outer"><span class="inner"></span> </span><span class="radio-label" >
+                                        <b class="ng-scope"><span sk-i18n="">Urgente</span></b>
+                                    </span></label></sk-radio-input>
+                                    <span class="font-italic" sk-i18n="">Notifica o usuário instantaneamente com uma janela no centro da tela, independente do que ele esteja fazendo.</span>
+                                    <br>
+
+                                    <sk-radio-input sk-value="ctrl.opcSelEnvio" sk-option="ATUALIZACAO" sk-change="onChange()" sk-enabled="enabled" class="ng-isolate-scope"><label class="radio"><input type="radio" ng-model="value" value="ATUALIZACAO" ng-disabled="!enabled" ng-change="changeHandler()" name="" class="ng-pristine ng-untouched ng-valid ng-not-empty"> <span class="outer"><span class="inner"></span> </span><span class="radio-label" >
+                                        <b class="ng-scope"><span sk-i18n="" sk-popover="" popover-template-url="html5/AdministracaoServidor/abas/popupNotificacaoHorario.html" width="350" height="auto" create-on-load="false" show-btn-apply="false" show-btn-close="false" controller-name="AdministracaoServidorController" controller-as="ctrl" class="ng-isolate-scope">Atualização do sistema</span></b>
+                                    </span></label></sk-radio-input>
+                                    <span class="font-italic" sk-i18n="">Notifica o usuário instantaneamente com uma mensagem de atualização do sistema.</span>
+                                    <br>
+
+                                    <span sk-i18n="">Enviar para:</span>
+                                    <sk-combobox sk-value="ctrl.opcEnviarParaSel" sk-allow-null="false" sk-required="false" sk-options="ctrl.opcEnviarPara" sk-change="ctrl.comboEnvParaChange()" class="mbot-10 ng-isolate-scope"><div class="ui-select-container selectize-control single ng-not-empty ng-valid ng-touched" sk-focus-out="onFocusOut" sk-focus="onFocus" outfocus-on="UiSelectFocusEvent" ng-model="modelValue.selected" theme="selectize" ng-disabled="!enabled" on-select="onSelect()" append-to-body="true"><div class="selectize-input" ng-class="{'focus': $select.open, 'disabled': $select.disabled, 'selectize-focus' : $select.focus}" ng-click="$select.activate()"><div ng-hide="($select.open || $select.isEmpty())" class="ui-select-match ng-scope"  title="Todos" allow-clear="true" placeholder="Todos"><span class="ng-binding ng-scope">Todos</span></div><input autocomplete="off" tabindex="-1" class="ui-select-search ui-select-toggle ng-pristine ng-valid ng-empty ng-touched ng-hide" ng-click="$select.toggle($event)" placeholder="Todos" ng-model="$select.search" ng-hide="!$select.searchEnabled || ($select.selected &amp;&amp; !$select.open)" ng-disabled="$select.disabled || $select.isMobile" aria-label="Select box"></div><sk-select-single></sk-select-single><input ng-disabled="$select.disabled || $select.isMobile" class="ui-select-focusser ui-select-offscreen ng-scope" type="text" id="focusser-0" aria-label="Select box focus" aria-haspopup="true" role="button"></div></sk-combobox>
+
+                                    <sk-vbox ng-show="ctrl.opcEnviarParaSel == 'U'" layout="column" class="ng-hide">
+                                        <sk-entity-list sk-entity-name="Usuario" sk-value="ctrl.usuarioList" sk-show-checkbox="false" class="ng-isolate-scope"><div flex="" class="entity-list-container"><div layout="row" layout-align="start center" class="checkbox-list-header-container"><sk-checkbox ng-show="!onlyOneSelection &amp;&amp; showCheckBox" accept-indeterminate="true" indeterminate-value="I" ng-model="checkBoxAll" ng-change="atualizaCheckBoxLista()" class="checkbox-list-cbx-header ng-pristine ng-untouched ng-valid ng-isolate-scope ng-not-empty" tooltip="Marcar/desmarcar todos" tooltip-placement="right" tooltip-append-to-body="true" ng-disabled="disableActions" tabindex="0" role="checkbox"><div class="sk-container"><div class="sk-icon"></div></div><div class="sk-label"></div></sk-checkbox><span ng-show="showLabel" class="ng-binding ng-hide"></span><div class="checkbox-list-header" flex="" layout="row" layout-align="start center"><button type="button" ng-class="{'entity-list-margin-left-5' : onlyOneSelection || !showCheckBox}" class="btn btn-default btn-teste-cond ng-binding" ng-click="addItem()" ng-disabled="disableActions"><sk-icon font-icon="plus" class="ng-isolate-scope margin-icon"><span ng-disabled="!enabled" ng-show="visible !== false" ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]" class="glyphicons glyphicons-plus"></span></sk-icon>Adicionar</button> <button type="button" class="btn btn-default ng-binding" ng-click="removeSelectedItems()" ng-disabled="getSelectedItems().length <= 0" disabled="disabled"><sk-icon font-icon="remove-2" class="ng-isolate-scope margin-icon"><span ng-disabled="!enabled" ng-show="visible !== false" ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]" class="glyphicons glyphicons-remove-2"></span></sk-icon>Remover</button> <button type="button" class="btn btn-default ng-binding" ng-click="clearAll()" ng-disabled="!hasData()" disabled="disabled"><sk-icon font-icon="delete" class="ng-isolate-scope margin-icon"><span ng-disabled="!enabled" ng-show="visible !== false" ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]" class="glyphicons glyphicons-delete"></span></sk-icon>Limpar</button></div></div><!-- ngIf: !onlyOneSelection --><div class="checkbox-list-body-container ng-scope" ng-if="!onlyOneSelection"><!-- ngRepeat: item in dataProvider --></div><!-- end ngIf: !onlyOneSelection --><!-- ngIf: onlyOneSelection --></div></sk-entity-list>
+                                    </sk-vbox>
+
+                                    <sk-vbox ng-show="ctrl.opcEnviarParaSel == 'G'" layout="column" class="ng-hide">
+                                        <sk-entity-list sk-entity-name="GrupoUsuario" sk-value="ctrl.grupoList" sk-show-checkbox="false" sk-only-selection="false" class="ng-isolate-scope"><div flex="" class="entity-list-container"><div layout="row" layout-align="start center" class="checkbox-list-header-container"><sk-checkbox ng-show="!onlyOneSelection &amp;&amp; showCheckBox" accept-indeterminate="true" indeterminate-value="I" ng-model="checkBoxAll" ng-change="atualizaCheckBoxLista()" class="checkbox-list-cbx-header ng-pristine ng-untouched ng-valid ng-isolate-scope ng-not-empty" tooltip="Marcar/desmarcar todos" tooltip-placement="right" tooltip-append-to-body="true" ng-disabled="disableActions" tabindex="0" role="checkbox"><div class="sk-container"><div class="sk-icon"></div></div><div class="sk-label"></div></sk-checkbox><span ng-show="showLabel" class="ng-binding ng-hide"></span><div class="checkbox-list-header" flex="" layout="row" layout-align="start center"><button type="button" ng-class="{'entity-list-margin-left-5' : onlyOneSelection || !showCheckBox}" class="btn btn-default btn-teste-cond ng-binding" ng-click="addItem()" ng-disabled="disableActions"><sk-icon font-icon="plus" class="ng-isolate-scope margin-icon"><span ng-disabled="!enabled" ng-show="visible !== false" ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]" class="glyphicons glyphicons-plus"></span></sk-icon>Adicionar</button> <button type="button" class="btn btn-default ng-binding" ng-click="removeSelectedItems()" ng-disabled="getSelectedItems().length <= 0" disabled="disabled"><sk-icon font-icon="remove-2" class="ng-isolate-scope margin-icon"><span ng-disabled="!enabled" ng-show="visible !== false" ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]" class="glyphicons glyphicons-remove-2"></span></sk-icon>Remover</button> <button type="button" class="btn btn-default ng-binding" ng-click="clearAll()" ng-disabled="!hasData()" disabled="disabled"><sk-icon font-icon="delete" class="ng-isolate-scope margin-icon"><span ng-disabled="!enabled" ng-show="visible !== false" ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]" class="glyphicons glyphicons-delete"></span></sk-icon>Limpar</button></div></div><!-- ngIf: !onlyOneSelection --><div class="checkbox-list-body-container ng-scope" ng-if="!onlyOneSelection"><!-- ngRepeat: item in dataProvider --></div><!-- end ngIf: !onlyOneSelection --><!-- ngIf: onlyOneSelection --></div></sk-entity-list>
+                                    </sk-vbox>
+                                </sk-vbox>
+                            </sk-vbox>
+
+                            <sk-vbox class="mtop-10 mlef-10" layout="column">
+                                <sk-simple-form sk-columns="1" class="ng-isolate-scope"><div class="sk-form" flex=""><div class="form-fields-container clearfix" >
+                                    <sk-simple-item sk-label="Core.AdministracaoServidor.titulo" sk-required="true" class="ng-scope ng-isolate-scope col-xs-12 col-sm-12"><div class="form-group"><!-- ngIf: !$ctrl.inLine --><div ng-if="!$ctrl.inLine" sk-width="100%" class="ng-scope" style="width: 100%;"><!-- ngIf: $ctrl.labelText || $ctrl.emptyLabel --><label ng-if="$ctrl.labelText || $ctrl.emptyLabel" class="form-input-label simple-label ng-scope required" ng-class="{'required': $ctrl.required, 'has-help-tip': $ctrl.helptip}"><div layout="row"><!-- ngIf: !$ctrl.emptyLabel --><span ng-bind="$ctrl.labelText" ng-if="!$ctrl.emptyLabel" class="ng-binding ng-scope">Título:</span><!-- end ngIf: !$ctrl.emptyLabel --> <span class="required">*</span><!-- ngIf: $ctrl.helptip --></div></label><!-- end ngIf: $ctrl.labelText || $ctrl.emptyLabel --><div class="clearfix"></div><div  id="simple-item-content">
+                                        <sk-text-input sk-value="ctrl.notificacaoTitulo" class="ng-scope ng-isolate-scope"><input type="text" id="" class="form-control ng-pristine ng-valid ng-empty ng-valid-maxlength ng-valid-required ng-touched" ng-model="value" ng-model-options="valueOptions" ng-attr-placeholder="{{placeholder}}" ng-disabled="!enabled" ng-required="required" ng-change="changeHandler()" ng-keydown="$event.keyCode !== 13 &amp;&amp; onInputKeydown($event)" ng-keyup="$event.keyCode === 13 &amp;&amp; onInputKeydown($event)" maxlength="" ng-blur="onControleInputFocusOut()"></sk-text-input>
+                                    </div></div><!-- end ngIf: !$ctrl.inLine --><!-- ngIf: $ctrl.inLine --></div></sk-simple-item>
+                                    <sk-simple-item sk-label="Core.AdministracaoServidor.descricao" sk-required="true" class="ng-scope ng-isolate-scope col-xs-12 col-sm-12"><div class="form-group"><!-- ngIf: !$ctrl.inLine --><div ng-if="!$ctrl.inLine" sk-width="100%" class="ng-scope" style="width: 100%;"><!-- ngIf: $ctrl.labelText || $ctrl.emptyLabel --><label ng-if="$ctrl.labelText || $ctrl.emptyLabel" class="form-input-label simple-label ng-scope required" ng-class="{'required': $ctrl.required, 'has-help-tip': $ctrl.helptip}"><div layout="row"><!-- ngIf: !$ctrl.emptyLabel --><span ng-bind="$ctrl.labelText" ng-if="!$ctrl.emptyLabel" class="ng-binding ng-scope">Descrição:</span><!-- end ngIf: !$ctrl.emptyLabel --> <span class="required">*</span><!-- ngIf: $ctrl.helptip --></div></label><!-- end ngIf: $ctrl.labelText || $ctrl.emptyLabel --><div class="clearfix"></div><div  id="simple-item-content">
+                                        <sk-text-area sk-value="ctrl.notificacaoDescricao" class="ng-scope ng-isolate-scope"><textarea id="snk-textarea" ng-style="style" class="form-control text-area-height ng-pristine ng-valid ng-empty ng-valid-maxlength ng-touched" rows="4" ng-model="value" ng-disabled="!enabled" ng-change="changeHandler()" ng-attr-placeholder="{{placeholder | i18n}}" maxlength="" style="resize: vertical"></textarea><sk-icon font-icon="copy" class="copy-clipboard ng-isolate-scope ng-hide" ng-show="!enabled" tooltip="Copiar" tooltip-placement="left" sk-i18n=""><span ng-disabled="!enabled" ng-show="visible !== false" ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]" class="glyphicons glyphicons-copy"></span></sk-icon></sk-text-area>
+                                    </div></div><!-- end ngIf: !$ctrl.inLine --><!-- ngIf: $ctrl.inLine --></div></sk-simple-item>
+                                    <sk-simple-item sk-label="Core.AdministracaoServidor.dica" class="ng-scope ng-isolate-scope col-xs-12 col-sm-12"><div class="form-group"><!-- ngIf: !$ctrl.inLine --><div ng-if="!$ctrl.inLine" sk-width="100%" class="ng-scope" style="width: 100%;"><!-- ngIf: $ctrl.labelText || $ctrl.emptyLabel --><label ng-if="$ctrl.labelText || $ctrl.emptyLabel" class="form-input-label simple-label ng-scope" ng-class="{'required': $ctrl.required, 'has-help-tip': $ctrl.helptip}"><div layout="row"><!-- ngIf: !$ctrl.emptyLabel --><span ng-bind="$ctrl.labelText" ng-if="!$ctrl.emptyLabel" class="ng-binding ng-scope">Dica:</span><!-- end ngIf: !$ctrl.emptyLabel --> <span class="required">*</span><!-- ngIf: $ctrl.helptip --></div></label><!-- end ngIf: $ctrl.labelText || $ctrl.emptyLabel --><div class="clearfix"></div><div id="simple-item-content">
+                                        <span class="font-italic ng-scope" sk-i18n="">Ex. Em uma notificação podemos relatar um problema no campo descrição. Já no campo dica, podemos descrever uma possível solução.</span>
+                                        <sk-text-area sk-value="ctrl.notificacaoDica" class="ng-scope ng-isolate-scope"><textarea id="snk-textarea" ng-style="style" class="form-control text-area-height ng-pristine ng-valid ng-empty ng-valid-maxlength ng-touched" rows="4" ng-model="value" ng-disabled="!enabled" ng-change="changeHandler()" ng-attr-placeholder="{{placeholder | i18n}}" maxlength="" style="resize: vertical"></textarea><sk-icon font-icon="copy" class="copy-clipboard ng-isolate-scope ng-hide" ng-show="!enabled" tooltip="Copiar" tooltip-placement="left" sk-i18n=""><span ng-disabled="!enabled" ng-show="visible !== false" ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]" class="glyphicons glyphicons-copy"></span></sk-icon></sk-text-area>
+                                    </div></div><!-- end ngIf: !$ctrl.inLine --><!-- ngIf: $ctrl.inLine --></div></sk-simple-item>
+                                    <button class="mlef-15 btn btn-default ng-scope" default="" ng-click="ctrl.enviarNotificacao(true)" sk-i18n="" style="margin:20px">Enviar</button>
+                                    <button default="" ng-click="ctrl.limparCamposNotificacao()" sk-i18n="" class="btn btn-default ng-scope">Limpar</button>
+                                    <span class="font-italic mlef-5 ng-scope" sk-i18n="">*Cada usuário logado poderá levar até 1 minuto para receber a notificação</span>
+                                </div></div></sk-simple-form>
+                            </sk-vbox>
+
+                        </sk-hbox></div>
         </sk-application>
+
     <!-- -->
 </body>
 </html>

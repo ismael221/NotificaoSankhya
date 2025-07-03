@@ -9,7 +9,7 @@ class ControladoraCentral {
     /**
      * Importacao dos elementos nativos injetados pelo SNK.JS ou por modulos devidamente definidos
      */
-    constructor (ObjectUtils, Criteria, DateUtils, SanPopup, MessageUtils, $scope) {
+    constructor (ObjectUtils, Criteria, DateUtils, SanPopup, StringUtils,ServiceProxy,i18n, MessageUtils, $scope) {
 
         /** **/
         /** REMOCAO DO FRAME (frame de entorno padrao dos componentes de BI)                             **/
@@ -34,6 +34,9 @@ class ControladoraCentral {
             this.Criteria       = Criteria;
             this.DateUtils      = DateUtils;
             this.SanPopup       = SanPopup;
+            this.StringUtils =  StringUtils;
+            this.i18n = i18n;
+            this.ServiceProxy = ServiceProxy;
             this.MessageUtils   = MessageUtils;
         /* */
 
@@ -70,5 +73,85 @@ class ControladoraCentral {
         }
 
     }
+
+    enviarNotificacao(alerta) {
+        let tipoNotificacao = 'ATUALIZACAO';
+        let enviarPara = 'T';
+
+        if (this.StringUtils.isEmpty(this.notificacaoTitulo)) {
+            this.MessageUtils.showAlert(
+                this.i18n('Core.AdministracaoServidor.atencao'),
+                this.i18n('Core.AdministracaoServidor.msgAlertaTituloNotificacao')
+            );
+            return;
+        }
+
+        if (this.StringUtils.isEmpty(this.notificacaoDescricao)) {
+            this.MessageUtils.showAlert(
+                this.i18n('Core.AdministracaoServidor.atencao'),
+                this.i18n('Core.AdministracaoServidor.msgAlertaDescricaoNotificacao')
+            );
+            return;
+        }
+
+        if (enviarPara === 'U' && this.StringUtils.isEmpty(this.usuarioList)) {
+            this.MessageUtils.showAlert(
+                this.i18n('Core.AdministracaoServidor.atencao'),
+                this.i18n('Core.AdministracaoServidor.selecaoUsuarios')
+            );
+            return;
+        }
+
+        if (enviarPara === 'G' && this.StringUtils.isEmpty(this.grupoList)) {
+            this.MessageUtils.showAlert(
+                this.i18n('Core.AdministracaoServidor.atencao'),
+                this.i18n('Core.AdministracaoServidor.selecaoGrupos')
+            );
+            return;
+        }
+
+        if (tipoNotificacao !== 'ATUALIZACAO' && enviarPara === 'T' && alerta) {
+            this.MessageUtils.simpleConfirm(
+                this.i18n('Core.AdministracaoServidor.enviarNotificacaoTodos')
+            ).then(() => {
+                this.enviarNotificacao(false);
+            });
+            return;
+        }
+
+        let importancia = 3;
+        if (tipoNotificacao === 'ATUALIZACAO' || tipoNotificacao === 'URGENTE') importancia = 0;
+        else if (tipoNotificacao === 'ERRO') importancia = 1;
+        else if (tipoNotificacao === 'ATENCAO') importancia = 2;
+
+        let req = {
+            aviso: {
+                importancia,
+                destinatario: [],
+                titulo: { $: this.notificacaoTitulo },
+                descricao: { $: this.notificacaoDescricao },
+                dica: { $: this.StringUtils.isEmpty(this.notificacaoDica) ? '' : this.notificacaoDica }
+            }
+        };
+
+        if (enviarPara === 'U') {
+            for (let id of this.usuarioList) {
+                req.aviso.destinatario.push({ id, tipo: 'usuario' });
+            }
+        } else if (enviarPara === 'G') {
+            for (let id of this.grupoList) {
+                req.aviso.destinatario.push({ id, tipo: 'grupo' });
+            }
+        }
+
+        this.ServiceProxy.callService('mge@AvisoSistemaSP.enviarAviso', req)
+            .then(() => {
+                this.MessageUtils.showInfo(
+                    this.MessageUtils.TITLE_INFORMATION,
+                    this.i18n('Core.AdministracaoServidor.notificacaoEnviada')
+                );
+            });
+    }
+
 
 }
