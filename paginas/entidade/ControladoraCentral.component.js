@@ -38,6 +38,18 @@ class ControladoraCentral {
             this.i18n = i18n;
             this.ServiceProxy = ServiceProxy;
             this.MessageUtils   = MessageUtils;
+            this.opcSelEnvio = 'ATUALIZACAO';
+            this.notificacaoTitulo = '';
+            this.notificacaoDescricao = '';
+            this.notificacaoDica = '';
+            this.opcEnviarParaSel = 'T';
+            this.usuarioList = [];
+            this.grupoList = [];
+            this.opcEnviarPara = [
+            {data: "T", value: "Todos", $$hashKey: "object:215"},
+            {data: "G", value: "Grupo", $$hashKey: "object:216"},
+            {data: "U", value: "Usuário", $$hashKey: "object:217"}
+            ];
         /* */
 
         /* Variaveis com os dados da entidade principal da tela */
@@ -74,9 +86,18 @@ class ControladoraCentral {
 
     }
 
+    comboEnvParaChange() {
+    }
+
+    limparCamposNotificacao() {
+        this.notificacaoTitulo = undefined;
+        this.notificacaoDescricao = undefined;
+        this.notificacaoDica = undefined;
+    }
+
     enviarNotificacao(alerta) {
-        let tipoNotificacao = 'ATUALIZACAO';
-        let enviarPara = 'T';
+        let tipoNotificacao = this.opcSelEnvio;
+        let enviarPara = this.opcEnviarParaSel;
 
         if (this.StringUtils.isEmpty(this.notificacaoTitulo)) {
             this.MessageUtils.showAlert(

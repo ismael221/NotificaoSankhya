@@ -368,7 +368,7 @@
                                     <br>
 
                                     <sk-radio-input sk-value="ctrl.opcSelEnvio" sk-option="ATUALIZACAO" sk-change="onChange()" sk-enabled="enabled" class="ng-isolate-scope"><label class="radio"><input type="radio" ng-model="value" value="ATUALIZACAO" ng-disabled="!enabled" ng-change="changeHandler()" name="" class="ng-pristine ng-untouched ng-valid ng-not-empty"> <span class="outer"><span class="inner"></span> </span><span class="radio-label" >
-                                        <b class="ng-scope"><span sk-i18n="" sk-popover="" popover-template-url="html5/AdministracaoServidor/abas/popupNotificacaoHorario.html" width="350" height="auto" create-on-load="false" show-btn-apply="false" show-btn-close="false" controller-name="AdministracaoServidorController" controller-as="ctrl" class="ng-isolate-scope">Atualização do sistema</span></b>
+                                        <b class="ng-scope"><span sk-i18n="" sk-popover="" popover-template-url="html5/AdministracaoServidor/abas/popupNotificacaoHorario.html" width="350" height="auto" create-on-load="false" show-btn-apply="false" show-btn-close="false" controller-name="ControladoraCentral" controller-as="ctrl" class="ng-isolate-scope">Atualização do sistema</span></b>
                                     </span></label></sk-radio-input>
                                     <span class="font-italic" sk-i18n="">Notifica o usuário instantaneamente com uma mensagem de atualização do sistema.</span>
                                     <br>
